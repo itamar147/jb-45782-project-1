@@ -22,8 +22,8 @@ function collectDataFromForm() {
 function generateNote(data) {
     
     const newNote =
-        `<div style="background-image: url(images/notebg.png);">
-            <p>${data.textDescription}</p>
+        `<div class="fadeIn" style="background-image: url(images/notebg.png);">
+            <p id=text>${data.textDescription}</p>
             <p>${data.submissionDate}</p>
             <p>${data.submissionTime}</p>
         </div>`
@@ -32,22 +32,24 @@ function generateNote(data) {
 }
 
 function injectNoteToDOM(newNote) {
-    console.log("check note")
-    document.getElementById("noteContainer").innerHTML += newNote
+    // console.log("check note")       
+    // document.getElementById("noteContainer").innerHTML += newNote         קוד קודם - מרנדר את כל הפתקים ונותן אנימציה לכולם ביחד
+    const container = document.getElementById("noteContainer");
+    container.insertAdjacentHTML("beforeend", newNote);
 }
 
 function clearForm(){
-    document.getElementById("taskTable").reset();
+    document.getElementById("taskForm").reset();
 }
 
-function clearForm(){
-    const form = document.getElementById("taskTable");
-    if(form && typeof form.reset === "function"){
-        form.reset();
-    } else {
-        const type=typeof document.getElementById("tasktable")
-        console.log(`tasktable is ${type} `)
-        console.error("taskTable is not a form or does not exist");
+// function clearForm(){
+//     const form = document.getElementById("taskForm");
+//     if(form && typeof form.reset === "function"){
+//         form.reset();
+//     } else {
+//         const type=typeof document.getElementById("taskForm")
+//         console.log(`taskForm is ${type} `)
+//         console.error("taskForm is not a form or does not exist");
         
-    }
-}
+//     }
+// }

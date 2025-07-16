@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -22,10 +22,10 @@
     </div>
 
     <div id="formDiv">
-        <form id="taskTable"  onsubmit="addNote(event)" class="card container my-5 shadow">
+        <form id="taskForm"  onsubmit="addNote(event)">
             <div class="mb-3">
                 <label for="taskDescription" class="form-floating">Enter task description</label>
-                <textarea id="taskDescription" required minlength="10" maxlength="100"></textarea>
+                <textarea id="taskDescription" required minlength="10" maxlength="400"></textarea>
             </div>
             <div>
                 <label for="submissionDate" class="form-floating">Enter submission date</label>
@@ -35,8 +35,8 @@
                 <label for="submissionTime" class="form-floating">Enter submission hour</label>
                 <input id="submissionTime" type="time" required>
             </div>
-            <div id="addNote">
-                <button>Add Note</button>
+            <div id="buttons">
+                <button type="submit">Add Note</button>
                 <button type="button" id="reset" onclick="clearForm()">Clear</button>
             </div>
         </form>

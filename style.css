@@ -1,43 +1,105 @@
-
-h1{
+h1 {
     text-align: center;
     font-family: "Bitcount Grid Double";
-    
+
 }
 
-#taskTable{
+#formDiv {
+    display: flex;
+    justify-content: center;
+}
+
+#taskForm{
+
+    display: flex;
+    flex-direction: column;
+    height: 180px;
+    width: 550px;
     background-image: url(images/formbg.jpg);
-    background-position: center;
     font-style: normal;
     font-weight: bolder;
-    
+    background-repeat: repeat-y;
+    background-position: center;
+    padding-left: 60px;
+
 
 }
 
-body{
+
+
+
+body {
     size: 100%;
     background-image: url(images/tile.jpg);
     background-size: 100%;
 }
 
-/* not working */
-/* #addNote{
-    text-align: right;
-} */
 
-#noteContainer{
+#noteContainer {
 
+    margin-left: 50;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
 }
 
-#noteContainer div{
-    flex: 0 0 calc(20% - 1rem);
+
+#noteContainer div {
+    /* flex: 0 0 calc(20% - 1rem); */
+    flex-basis: 18%;
     background-image: url(images/notebg.png);
     background-size: cover;
     padding: 1rem;
     box-sizing: border-box;
+    height: 400px;
+    justify-content: center;
+
 }
 
+#text {
+    padding-top: 50px;
+    width: 250px;
+    height: 300px;
+    text-align: left;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-x: auto;
+  
+}
+
+@keyframes fadeIn{
+    0%{
+        opacity: 0;
+    }
+
+    20%{
+        opacity: 0.7;
+    }
+
+    30%{
+        opacity: 0.3;
+    }
+
+    70%{
+        opacity: 0.8;
+    }
+
+    100%{
+        opacity: 1;
+    }
+}
+
+
+.fadeIn{
+    animation: fadeIn 2s ease-in;
+    
+}
+
+#buttons{
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    width: 95%;
+    
+}
 
