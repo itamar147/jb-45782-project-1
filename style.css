@@ -53,6 +53,9 @@ body {
     box-sizing: border-box;
     height: 400px;
     justify-content: center;
+    margin-left: 1rem;
+    font-weight: bold;
+    
 
 }
 
@@ -64,6 +67,7 @@ body {
     word-wrap: break-word;
     word-break: break-word;
     overflow-x: auto;
+    font-weight: bold;
   
 }
 

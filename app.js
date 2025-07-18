@@ -23,6 +23,7 @@ function generateNote(data) {
     
     const newNote =
         `<div class="fadeIn" style="background-image: url(images/notebg.png);">
+            <p>Remove icon: <span class="glyphicon glyphicon-remove"></span></p>
             <p id=text>${data.textDescription}</p>
             <p>${data.submissionDate}</p>
             <p>${data.submissionTime}</p>
