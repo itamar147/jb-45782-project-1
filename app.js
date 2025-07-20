@@ -1,10 +1,11 @@
 
 const NOTE_KEY_NAME = '[]'
+animate=1;
 
 function addNote(event) {
     event.preventDefault();
     const data = collectDataFromForm();
-    const newNote = generateNote(data);
+    const newNote = generateNote(data, animate);
     injectNoteToDOM(newNote);
     saveNoteToLocalStorage(data);
     clearForm();
@@ -22,17 +23,34 @@ function collectDataFromForm() {
     };
 }
 
-function generateNote(data) {
+function generateNote(data, animation = true) {
 
     const noteJSON = localStorage.getItem(NOTE_KEY_NAME) || "[]";
-    // console.log(`${noteJSON}`);
+    const notes = JSON.parse(noteJSON);
+    let id = notes.length -1;
+    console.log(`${id}`)
+    
+    const newNote =
+        `<div id='${id}' class= "${animation? "fadeIn note": "note"}"  style="background-image: url(images/notebg.png);">
+            <button class="deleteButton" onclick="deleteNote(${id})"><span class="glyphicon glyphicon-remove"></span> </button>
+            <p id=text>${data.textDescription}</p>
+            <p>${data.submissionDate}</p>
+            <p>${data.submissionTime}</p>
+        
+            
+        </div>`
+
+    return newNote;
+}
+
+function generateOldNote(data) {
+
+    const noteJSON = localStorage.getItem(NOTE_KEY_NAME) || "[]";
     const notes = JSON.parse(noteJSON);
     let id = notes.length;
-    // console.log(` the length is${id}`);
-
-
+    
     const newNote =
-        `<div id='${id}' class="fadeIn" style="background-image: url(images/notebg.png);">
+        `<div id='${id}'style="background-image: url(images/notebg.png);" class="note">
             <button class="deleteButton" onclick="deleteNote(${id})"><span class="glyphicon glyphicon-remove"></span> </button>
             <p id=text>${data.textDescription}</p>
             <p>${data.submissionDate}</p>
@@ -43,26 +61,8 @@ function generateNote(data) {
     return newNote;
 }
 
-// function generateOldNote(data) {
-
-//     const noteJSON = localStorage.getItem(NOTE_KEY_NAME) || "[]";
-//     console.log(`${noteJSON}`);
-//     const notes = JSON.parse(noteJSON);
-//     let id = notes.length;
-//     console.log(` the length is${id}`);
 
 
-//     const newNote =
-//         `<div id='${id}' style="background-image: url(images/notebg.png);">
-//             <button class="deleteButton" onclick="deleteNote(${id})"><span class="glyphicon glyphicon-remove"></span> </button>
-//             <p id=text>${data.textDescription}</p>
-//             <p>${data.submissionDate}</p>
-//             <p>${data.submissionTime}</p>
-            
-//         </div>`
-
-//     return newNote;
-// }
 
 
 
@@ -91,7 +91,8 @@ function loadNotesFromStorage() {
         const container = document.getElementById("noteContainer");
         container.innerHTML = "";
         for (const note of notes) {
-            const newNote = generateNote(note);
+            const animation=false;
+            const newNote = generateNote(note, false );
             injectNoteToDOM(newNote);
         }
     }
