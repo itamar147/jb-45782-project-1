@@ -1,15 +1,19 @@
 
-const NOTE_KEY_NAME = '[]'
-animate=1;
+const NOTE_KEY_NAME = 'notes'
+let animate = true;
 
 function addNote(event) {
     event.preventDefault();
     const data = collectDataFromForm();
-    const newNote = generateNote(data, animate);
+    const notesJSON = localStorage.getItem(NOTE_KEY_NAME);
+    const noteId = notesJSON ? JSON.parse(notesJSON).length : 0;
+    const newNote = generateNote(data, noteId, animate);
     injectNoteToDOM(newNote);
     saveNoteToLocalStorage(data);
     clearForm();
 }
+
+
 
 function collectDataFromForm() {
     const textDescription = document.getElementById("taskDescription").value;
@@ -23,19 +27,20 @@ function collectDataFromForm() {
     };
 }
 
-function generateNote(data, animation = true) {
+function generateNote(data, id, animation = true) {
 
-    const noteJSON = localStorage.getItem(NOTE_KEY_NAME) || "[]";
-    const notes = JSON.parse(noteJSON);
-    let id = notes.length -1;
-    console.log(`${id}`)
-    
+    // const noteJSON = localStorage.getItem(NOTE_KEY_NAME) || "[]";
+    const { textDescription, submissionDate, submissionTime } = data;
+    // const notes = JSON.parse(noteJSON);
+    // let id = notes.length;
+    // console.log(` generate id${id}`)
+
     const newNote =
-        `<div id='${id}' class= "${animation? "fadeIn note": "note"}"  style="background-image: url(images/notebg.png);">
+        `<div id='${id}' class= "${animation ? "fadeIn note" : "note"}"  style="background-image: url(images/notebg.png);">
             <button class="deleteButton" onclick="deleteNote(${id})"><span class="glyphicon glyphicon-remove"></span> </button>
-            <p id=text>${data.textDescription}</p>
-            <p>${data.submissionDate}</p>
-            <p>${data.submissionTime}</p>
+            <p id=text>${textDescription}</p>
+            <p id=date>${submissionDate}</p>
+            <p id=time>${submissionTime}</p>
         
             
         </div>`
@@ -43,72 +48,46 @@ function generateNote(data, animation = true) {
     return newNote;
 }
 
-function generateOldNote(data) {
-
-    const noteJSON = localStorage.getItem(NOTE_KEY_NAME) || "[]";
-    const notes = JSON.parse(noteJSON);
-    let id = notes.length;
-    
-    const newNote =
-        `<div id='${id}'style="background-image: url(images/notebg.png);" class="note">
-            <button class="deleteButton" onclick="deleteNote(${id})"><span class="glyphicon glyphicon-remove"></span> </button>
-            <p id=text>${data.textDescription}</p>
-            <p>${data.submissionDate}</p>
-            <p>${data.submissionTime}</p>
-            
-        </div>`
-
-    return newNote;
-}
-
-
-
 
 
 
 function injectNoteToDOM(newNote) {
-    // console.log("check note")       
-    // document.getElementById("noteContainer").innerHTML += newNote         קוד קודם - מרנדר את כל הפתקים ונותן אנימציה לכולם ביחד
-    const container = document.getElementById("noteContainer");
-    container.insertAdjacentHTML("beforeend", newNote);
+    document.getElementById("noteContainer").innerHTML += newNote;
+}
+
+
+
+function loadNotesFromStorage() {
+    document.getElementById("noteContainer").innerHTML = "";
+    const notesJSON = localStorage.getItem(NOTE_KEY_NAME);
+    if (notesJSON) {
+        const notes = JSON.parse(notesJSON);
+        for (let i = 0; i < notes.length; i++) {
+            const newNote = generateNote(notes[i], i,false);
+            injectNoteToDOM(newNote);
+        }
+    }
+}
+
+function saveNoteToLocalStorage(note) {
+    const noteJSON = localStorage.getItem(NOTE_KEY_NAME) || "[]";
+    const notes = JSON.parse(noteJSON);
+    notes.push(note);
+    localStorage.setItem(NOTE_KEY_NAME, JSON.stringify(notes));
 }
 
 function clearForm() {
     document.getElementById("taskForm").reset();
 }
 
-function saveNoteToLocalStorage(data) {
-    const noteJSON = localStorage.getItem(NOTE_KEY_NAME) || "[]";
-    const notes = JSON.parse(noteJSON);
-    notes.push(data);
-    localStorage.setItem(NOTE_KEY_NAME, JSON.stringify(notes));
-}
-
-function loadNotesFromStorage() {
-    const noteJSON = localStorage.getItem(NOTE_KEY_NAME);
-    if (noteJSON) {
-        const notes = JSON.parse(noteJSON);
-        const container = document.getElementById("noteContainer");
-        container.innerHTML = "";
-        for (const note of notes) {
-            const animation=false;
-            const newNote = generateNote(note, false );
-            injectNoteToDOM(newNote);
-        }
-    }
-}
-
 
 
 function deleteNote(id) {
-
-    const noteJSON = localStorage.getItem(NOTE_KEY_NAME) || "[]";
-    let notes = JSON.parse(noteJSON);
-    notes.splice(id-1, 1);
-    localStorage.setItem(NOTE_KEY_NAME, JSON.stringify(notes))
-    loadNotesFromStorage(notes)
-
-
+    const notesJSON = localStorage.getItem(NOTE_KEY_NAME);
+    const notes = JSON.parse(notesJSON);
+    notes.splice(id, 1);
+    localStorage.setItem(NOTE_KEY_NAME, JSON.stringify(notes));
+    loadNotesFromStorage();
 }
 
 loadNotesFromStorage()
